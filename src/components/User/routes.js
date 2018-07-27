@@ -1,16 +1,16 @@
 import { Router } from 'express'
 
-import Users from './src/components/User/controller'
+import Users from './controller'
 
 const router = Router()
 
 router
-  .route('/users')
+  .route('/')
   .get(Users.index)
   .post(Users.create)
 
 router
-  .route('/users/:id')
+  .route('/:id')
   .delete(Users.delete)
   .get(Users.show)
 
