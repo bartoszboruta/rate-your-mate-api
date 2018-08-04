@@ -1,4 +1,5 @@
 import User from './schema'
+import Rate from '../Rate/schema'
 
 const Users = {
   index: async (req, res) => {
@@ -12,7 +13,7 @@ const Users = {
 
   create: async (req, res) => {
     try {
-      const user = await User.create({ email: 'also_awesome' })
+      const user = await User.create(req.body)
       res.json({ user })
     } catch (_) {
       res.status(500).send('An error occured while creating user')
@@ -21,7 +22,7 @@ const Users = {
 
   show: async (req, res) => {
     try {
-      const user = await User.find({ _id: req.params.id })
+      const user = await User.findById(req.params.id)
       res.json({ user })
     } catch (_) {
       res.status(404).send('User not found')
@@ -34,6 +35,32 @@ const Users = {
       res.json({ user: 'removed' })
     } catch (_) {
       res.status(500).send('An error occured while removing user')
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      res.json({ user })
+    } catch (_) {
+      res.status(500).send('An error occured while updating user')
+    }
+  },
+
+  addRate: async (req, res) => {
+    try {
+      const rate = await Rate.create(req.body)
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.id },
+        { $addToSet: { rates: rate } },
+        { safe: true, new: true },
+      )
+      await user.save()
+      res.json({
+        user,
+      })
+    } catch (_) {
+      res.status(500).send('An error occured while rating user')
     }
   },
 }
