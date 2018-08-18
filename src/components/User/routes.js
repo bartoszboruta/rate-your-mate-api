@@ -1,5 +1,7 @@
 import { Router } from 'express'
+import validate from 'express-validation'
 
+import validators from './validators'
 import Users from './controller'
 
 const router = Router()
@@ -7,13 +9,13 @@ const router = Router()
 router
   .route('/')
   .get(Users.index)
-  .post(Users.create)
+  .post(validate(validators.create), Users.create)
 
 router
   .route('/:id')
-  .delete(Users.delete)
-  .put(Users.update)
-  .get(Users.show)
+  .delete(validate(validators.delete), Users.delete)
+  .put(validate(validators.update), Users.update)
+  .get(validate(validators.show), Users.show)
 
 router.route('/:id/rate').post(Users.addRate)
 

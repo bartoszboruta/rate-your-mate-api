@@ -4,6 +4,8 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import passport from 'passport'
 import passportJWT from 'passport-jwt'
+import morgan from 'morgan'
+import expressValidation from 'express-validation'
 
 import router from './routes'
 import dbConnect from './config/db/connect'
@@ -19,6 +21,7 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(morgan('dev'))
 
 app.use(passport.initialize())
 passport.use(
@@ -28,7 +31,6 @@ passport.use(
       secretOrKey: 'hash',
     },
     function(jwtPayload, cb) {
-      //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
       return User.findById(jwtPayload._id)
         .then(user => {
           return cb(null, user)
@@ -41,6 +43,12 @@ passport.use(
 )
 
 app.use('/api/v1', router)
+app.use((err, req, res, next) => {
+  if (err instanceof expressValidation.ValidationError) {
+    return res.status(err.status).json(err)
+  }
+  return res.status(500)
+})
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {

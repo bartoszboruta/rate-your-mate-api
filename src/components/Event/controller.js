@@ -6,7 +6,7 @@ const Events = {
       const events = await Event.find({})
       res.json({ events })
     } catch (_) {
-      res.status(500).send('An error occured while fetching events')
+      res.status(422).send('An error occured while fetching events')
     }
   },
 
@@ -24,7 +24,7 @@ const Events = {
         },
       })
     } catch (_) {
-      res.status(500).send('An error occured while creating event')
+      res.status(422).send('An error occured while creating event')
     }
   },
 
@@ -53,7 +53,7 @@ const Events = {
         },
       })
     } catch (_) {
-      res.status(500).send('An error occured while creating event')
+      res.status(422).send('An error occured while creating event')
     }
   },
 }

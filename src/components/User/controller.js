@@ -7,7 +7,7 @@ const Users = {
       const users = await User.find({})
       res.json({ users })
     } catch (_) {
-      res.status(500).send('An error occured while fetching users')
+      res.status(422).send('An error occured while fetching users')
     }
   },
 
@@ -16,7 +16,7 @@ const Users = {
       const user = await User.create(req.body)
       res.json({ user })
     } catch (_) {
-      res.status(500).send('An error occured while creating user')
+      res.status(422).send('An error occured while creating user')
     }
   },
 
@@ -34,7 +34,7 @@ const Users = {
       await User.remove({ _id: req.params.id })
       res.json({ user: 'removed' })
     } catch (_) {
-      res.status(500).send('An error occured while removing user')
+      res.status(422).send('An error occured while removing user')
     }
   },
 
@@ -43,7 +43,7 @@ const Users = {
       const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
       res.json({ user })
     } catch (_) {
-      res.status(500).send('An error occured while updating user')
+      res.status(422).send('An error occured while updating user')
     }
   },
 
@@ -60,7 +60,7 @@ const Users = {
         user,
       })
     } catch (_) {
-      res.status(500).send('An error occured while rating user')
+      res.status(422).send('An error occured while rating user')
     }
   },
 }

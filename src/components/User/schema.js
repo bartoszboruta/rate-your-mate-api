@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -21,6 +22,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+    minlength: 6,
   },
   rates: [
     {
@@ -28,6 +30,15 @@ const UserSchema = new Schema({
       ref: 'Rate',
     },
   ],
+  roles: {
+    type: [
+      {
+        type: String,
+        enum: ['user', 'admin'],
+      },
+    ],
+    default: ['user'],
+  },
 })
 
 UserSchema.pre('save', function(next) {

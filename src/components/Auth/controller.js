@@ -23,7 +23,7 @@ const Auth = {
         res.status(400).send('Wrong email or password')
       })
     } catch (_) {
-      res.status(500).send('An error occured while logging in')
+      res.status(422).send('An error occured while logging in')
     }
   },
 }

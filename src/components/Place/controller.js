@@ -6,7 +6,7 @@ const Places = {
       const places = await Place.find({})
       res.json({ places })
     } catch (_) {
-      res.status(500).send('An error occured while fetching places')
+      res.status(422).send('An error occured while fetching places')
     }
   },
 
@@ -15,7 +15,7 @@ const Places = {
       const place = await Place.create({ city: 'Bielsko-Biala', type: 'orlik' })
       res.json({ place })
     } catch (_) {
-      res.status(500).send('An error occured while creating place')
+      res.status(422).send('An error occured while creating place')
     }
   },
 }
